@@ -1,7 +1,8 @@
+const { Decipher } = require('crypto');
 const path = require('path');
 const uuid = require('uuid');
 const ApiError = require('../error/ApiError');
-const { Device } = require('../models/models');
+const { Device, DeviceInfo } = require('../models/models');
 
 class DeviceController {
   async create(req, res, next) {
@@ -18,6 +19,17 @@ class DeviceController {
         typeId,
         img: fileName,
       });
+
+      if (info) {
+        info = JSON.parse(info);
+        info.forEach((i) => {
+          DeviceInfo.create({
+            title: i.title,
+            description: i.description,
+            deviceId: device.id,
+          });
+        });
+      }
 
       return res.json(device);
     } catch (e) {
@@ -62,7 +74,14 @@ class DeviceController {
     res.json(devices);
   }
 
-  async getOne(req, res) {}
+  async getOne(req, res) {
+    const { id } = req.params;
+    const device = await Device.findOne({
+      where: { id },
+      include: [{ model: DeviceInfo, as: 'info' }],
+    });
+    return res.json(device);
+  }
 }
 
 module.exports = new DeviceController();
