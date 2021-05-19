@@ -11,7 +11,7 @@ const CreateBrand = ({ show, onHide }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Control placeholder="Название типа" />
+          <Form.Control placeholder="Название бренда" />
         </Form>
       </Modal.Body>
       <Modal.Footer>

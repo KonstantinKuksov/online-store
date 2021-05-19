@@ -16,14 +16,14 @@ const Admin = () => {
         className="mt-4 p-2"
         onClick={() => setTypeVisible(true)}
       >
-        Добавить тип
+        Добавить бренд
       </Button>
       <Button
         variant="outline-dark"
         className="mt-4 p-2"
         onClick={() => setBrandVisible(true)}
       >
-        Добавить бренд
+        Добавить тип
       </Button>
       <Button
         variant="outline-dark"
