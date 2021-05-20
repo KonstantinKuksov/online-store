@@ -1,4 +1,3 @@
-const { Decipher } = require('crypto');
 const path = require('path');
 const uuid = require('uuid');
 const ApiError = require('../error/ApiError');
@@ -12,6 +11,8 @@ class DeviceController {
       let fileName = uuid.v4() + '.jpg';
       img.mv(path.resolve(__dirname, '..', 'static', fileName));
 
+      console.log(info);
+
       const device = await Device.create({
         name,
         price,
@@ -21,8 +22,8 @@ class DeviceController {
       });
 
       if (info) {
-        info = JSON.parse(info);
-        info.forEach((i) => {
+        const parsedInfo = JSON.parse(info);
+        parsedInfo.forEach((i) => {
           DeviceInfo.create({
             title: i.title,
             description: i.description,
@@ -40,7 +41,7 @@ class DeviceController {
   async getAll(req, res) {
     let { brandId, typeId, limit, page } = req.query;
     page = page || 1;
-    limit = limit || 9;
+    limit = limit || 50;
     let offset = page * limit - limit;
     let devices;
     if (!brandId && !typeId) {
